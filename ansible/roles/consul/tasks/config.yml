@@ -1,0 +1,25 @@
+- name: create dirs
+  file:
+    path: "{{ item.path }}"
+    state: directory
+    mode: "{{ item.mode }}"
+    owner: "{{ consul_user_name }}"
+  with_items:
+    - path: "{{ consul_config_dir }}"
+      mode: o=rx
+    - path: "{{ consul_data_dir }}"
+      mode: o=rwx
+    - path: "{{ consul_scripts_dir }}"
+      mode: o=rx
+
+- name: render agent configs
+  template:
+    src: "config/{{ item }}.json.j2"
+    dest: "{{ consul_config_dir }}/{{ item }}.json"
+    mode: 0600
+    owner: "{{ consul_user_name }}"
+  with_items:
+    - base_config
+    - checks
+    - services
+    - watches

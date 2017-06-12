@@ -1,0 +1,4 @@
+---
+
+bind_port: 8600
+bind_network_name: consul

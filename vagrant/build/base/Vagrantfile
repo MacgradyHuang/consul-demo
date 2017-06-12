@@ -1,0 +1,7 @@
+Vagrant.configure("2") do |config|
+    config.vm.box = "ValFadeev/jessie64-kernel-4"
+    config.vm.provision :ansible do |a|
+        a.playbook = "provision/consul-base.yml"
+        a.config_file = "provision/ansible.cfg"
+    end
+end

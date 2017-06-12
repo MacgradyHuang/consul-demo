@@ -1,0 +1,24 @@
+---
+
+- name: load backend service image from a local archive
+  docker_image:
+    name: consul
+    state: present
+    load_path: /usr/local/etc/images/consul.tar.gz
+  when: consul_local_image
+
+- name: create oslbuild/consul container
+  docker_container:
+    image: "{{ consul_docker_image_name }}:{{ consul_docker_image_tag }}"
+    name: consul
+    state: present
+    pull: no
+    restart_policy: no
+    networks:
+      - name: "{{ consul_network_name }}"
+    ports: "{{ consul_docker_port_mappings }}"
+    volumes:
+      - "{{ consul_config_dir }}:/config"
+      - "{{ consul_data_dir }}:/data"
+    env:
+      CONSUL_UID: "{{ consul_user_id }}"

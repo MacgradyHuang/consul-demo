@@ -1,0 +1,6 @@
+---
+consul_ip: 127.0.0.1
+docker_clusterstore: no
+dockerpy: yes
+vagrant: yes
+docker_storagedriver: overlay2

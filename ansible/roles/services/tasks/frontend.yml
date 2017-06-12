@@ -1,0 +1,19 @@
+- name: load frontend service image from a local archive
+  docker_image:
+    name: frontend
+    state: present
+    load_path: /usr/local/etc/images/frontend.tar.gz
+
+- name: create frontend service container
+  docker_container:
+    image: valfadeev/consul-example-frontend
+    name: frontend
+    state: started
+    pull: no
+    restart_policy: always
+    ports:
+      - "8081:8081"
+    networks:
+      - name: consul
+    dns_servers:
+      - "{{ example_docker_bridge_ip }}"

@@ -1,0 +1,40 @@
+{
+    "datacenter": "{{ consul_datacenter }}",
+    {% if consul_retry_join_ec2 %}
+    "retry_join_ec2": {
+        "tag_key": "{{ consul_retry_join_ec2_tag_key }}",
+        "tag_value": "{{ consul_retry_join_ec2_tag_value }}"
+    },
+    {% endif %}
+    "skip_leave_on_interrupt": {{ consul_skip_leave_on_interrupt|bool|to_json }},
+    "client_addr": "{{ consul_client_addr }}",
+    "dns_config": {
+        "allow_stale": {{ consul_dns_config_allow_stale|bool|to_json }},
+        "max_stale": "{{ consul_dns_config_max_stale }}",
+        "node_ttl": "{{ consul_dns_config_node_ttl }}",
+        "only_passing": {{ consul_dns_config_only_passing|bool|to_json }}
+    },
+    "ports": {
+        "https": {{ consul_https_port }}
+    },
+    "performance": {
+        "raft_multiplier": {{ consul_raft_multiplier|int }}
+    },
+    "disable_remote_exec": {{ consul_disable_remote_exec|bool|to_json }},
+    "disable_update_check": {{ consul_disable_update_check|bool|to_json }},
+    "leave_on_terminate": {{ consul_leave_on_terminate|bool|to_json }},
+    "data_dir": "{{ consul_data_dir }}",
+    "ui_dir": "{{ consul_ui_dir }}"
+    {% if consul_encrypt %},
+    "encrypt": "{{ consul_encryption_key }}"
+    {% endif %}
+    {% if consul_ssl_enabled|bool %},
+    "ca_file": "/config/ssl/{{ consul_ca_file_name }}",
+    "key_file": "/config/ssl/{{ consul_key_file_name }}",
+    "cert_file": "/config/ssl/{{ consul_cert_file_name }}",
+    "verify_outgoing": {{ consul_verify_outgoing|bool|to_json }}
+    {% endif %}
+    {% if consul_version|version_compare('0.8.0', '>=') %},
+    "acl_enforce_version_8": {{ consul_acl_enforce_version_8|bool|to_json }}
+    {% endif %}
+}

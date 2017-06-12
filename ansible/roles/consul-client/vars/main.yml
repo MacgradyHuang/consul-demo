@@ -1,0 +1,42 @@
+consul_client_acl_token: ""
+consul_acl_enabled: false
+
+example_services:
+  - id: backend
+    name: backend
+    port: 8080
+  - id: frontend
+    name: frontend
+    port: 8081
+
+example_checks:
+  - id: service.backend.tcp
+    name: Backend Service TCP Check
+    tcp: "backend:8080"
+    service_id: backend
+    interval: "10s"
+    timeout: "5s"
+  - id: service.frontend.tcp
+    name: Backend Service TCP Check
+    tcp: "frontend:8081"
+    service_id: frontend
+    interval: "10s"
+    timeout: "5s"
+  - id: service.frontend.dns.consul
+    name: Backend Service Consul DNS Check
+    http: "http://frontend:8081/consul"
+    service_id: frontend
+    interval: "10s"
+    timeout: "5s"
+  - id: service.frontend.dns.docker
+    name: Backend Service Docker DNS Check
+    http: "http://frontend:8081/docker"
+    service_id: frontend
+    interval: "10s"
+    timeout: "5s"
+  - id: service.frontend.dns.www
+    name: Backend Service External DNS Check
+    http: "http://frontend:8081/www"
+    service_id: frontend
+    interval: "10s"
+    timeout: "5s"

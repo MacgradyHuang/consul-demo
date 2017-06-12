@@ -1,0 +1,19 @@
+- name: load backend service image from a local archive
+  docker_image:
+    name: backend
+    state: present
+    load_path: /usr/local/etc/images/backend.tar.gz
+
+- name: create backend service container
+  docker_container:
+    image: valfadeev/consul-example-backend
+    name: backend
+    state: started
+    pull: no
+    restart_policy: always
+    ports:
+      - "8080:8080"
+    networks:
+      - name: consul
+    dns_servers:
+      - "{{ example_docker_bridge_ip }}"

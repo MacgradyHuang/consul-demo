@@ -1,0 +1,17 @@
+- name: create user group
+  group:
+    name: "{{ consul_user_name }}"
+
+- name: create consul user
+  user:
+    name: "{{ consul_user_name }}"
+    group: "{{ consul_group_name }}"
+
+- name: look up user id
+  shell: >
+    id -u "{{ consul_user_name }}"
+  register: uid_lookup
+
+- name: set uid to be used inside the container
+  set_fact:
+    consul_user_id: "{{ uid_lookup.stdout }}"

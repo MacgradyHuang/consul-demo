@@ -1,0 +1,7 @@
+---
+
+- include: ip.yml
+
+- include: backend.yml
+
+- include: frontend.yml

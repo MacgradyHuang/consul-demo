@@ -1,0 +1,39 @@
+{
+  "checks": [
+    {% for check in consul_checks_all %}
+    {
+      "id": "{{ check.id }}",
+      "name": "{{ check.name }}",
+     {% if check.notes is defined %}
+      "notes": "{{ check.notes }}",
+     {% endif %}
+     {%- if check.script is defined %}
+      "script": "{{ check.script }}",
+     {% endif %}
+     {%- if check.http is defined %}
+      "http": "{{ check.http }}",
+     {% endif %}
+     {%- if check.tcp is defined %}
+      "tcp": "{{ check.tcp }}",
+     {% endif %}
+     {%- if check.ttl is defined %}
+      "ttl": "{{ check.ttl }}",
+     {% endif %}
+     {%- if check.shell is defined %}
+      "shell": "{{ check.shell }}",
+     {% endif %}
+     {%- if check.docker_constainer_id is defined %}
+      "docker_container_id": "{{ check.docker_container_id }}",
+     {% endif %}
+     {%- if check.service_id is defined %}
+      "service_id": "{{ check.service_id }}",
+     {% endif -%}
+     {%- if check.status is defined %}
+      "status": "{{ check.status }}",
+     {% endif -%}
+      "interval": "{{ check.interval }}",
+      "timeout": "{{ check.timeout }}"
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}

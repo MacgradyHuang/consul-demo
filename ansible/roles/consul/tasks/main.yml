@@ -1,0 +1,14 @@
+---
+
+- include: user.yml
+  tags: [consul-user]
+
+- include: config.yml
+  tags: [consul-config]
+
+- include: ssl.yml
+  tags: [consul-ssl]
+  when: consul_ssl_enabled
+
+- include: container.yml
+  tags: [consul-container]

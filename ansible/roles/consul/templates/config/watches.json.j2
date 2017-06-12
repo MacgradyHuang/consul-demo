@@ -1,0 +1,36 @@
+{
+    "watches": [
+    {% for watch in consul_watches_all %}
+    {
+      "type": "{{ watch.type }}",
+      {% if watch.type == 'key' %}
+      "key": "{{ watch.key }}",
+      {% endif %}
+      {% if watch.type == 'keyprefix' %}
+      "keyprefix": "{{ watch.keyprefix }}",
+      {% endif %}
+      {% if watch.type == 'service' %}
+      "service": "{{ watch.service }}",
+      {% if watch.tag is defined %}
+      "tag": "{{ watch.tag }}",
+      {% endif %}
+      {% if watch.passingonly is defined %}
+      "passingonly": {{ watch.passingonly|bool|to_json }},
+      {% endif %}
+      {% endif %}
+      {% if watch.type == 'checks' %}
+      {% if watch.service is defined %}
+      "service": "{{ watch.service }}",
+      {% endif %}
+      {% if watch.state is defined %}
+      "state": "{{ watch.state }}",
+      {% endif %}
+      {% endif %}
+      {% if watch.type == 'event' %}
+      "name": "{{ watch.name }}",
+      {% endif %}
+      "handler": "{{ watch.handler }}"
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}

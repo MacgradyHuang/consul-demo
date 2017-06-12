@@ -1,0 +1,11 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "debian/jessie64"
+  config.vm.provision "shell", inline: <<-SHELL
+    echo 'deb http://deb.debian.org/debian/ jessie-backports main contrib non-free' > /etc/apt/sources.list.d/backports.list
+    DEBIAN_FRONTEND=noninteractive apt-get update
+    DEBIAN_FRONTEND=noninteractive apt-get -y upgrade
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends -t jessie-backports linux-image-amd64
+    sed -i -e 's/GRUB_CMDLINE_LINUX="\(.*\)"/GRUB_CMDLINE_LINUX="\1 cgroup_enable=memory swapaccount=1"/' /etc/default/grub
+    update-grub
+  SHELL
+end

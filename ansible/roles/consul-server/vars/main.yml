@@ -1,0 +1,6 @@
+consul_server_acl_enabled: true
+consul_server_acl_master_token: root
+consul_server_acl_datacenter: dc1
+consul_server_acl_default_policy: allow
+consul_server_acl_down_policy: extend-cache
+consul_server_verify_incoming: true

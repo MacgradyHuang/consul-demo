@@ -1,0 +1,19 @@
+{
+  "services": [
+    {% for service in consul_services %}
+    {
+      "id": "{{ service.id }}",
+      "name": "{{ service.name }}"
+      {% if service.address is defined %},
+      "address": "{{ service.address }}"
+      {% endif %}
+      {% if service.port is defined %},
+      "port": {{ service.port }}
+      {% endif %}
+      {% if service.tags is defined %},
+      "tags": {{ service.tags|list|to_json }}
+      {% endif %}
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}

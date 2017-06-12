@@ -1,0 +1,19 @@
+options {
+    listen-on port 53 { 127.0.0.1; };
+    listen-on port 53 { {{ bind_docker_bridge_ip }}; };
+    listen-on-v6 port 53 { ::1; };
+    directory       "/var/cache/bind";
+    dump-file       "/var/cache/bind/data/cache_dump.db";
+    statistics-file "/var/cache/bind/data/named_stats.txt";
+    memstatistics-file "/var/cache/bind/data/named_mem_stats.txt";
+    allow-query     { {{ bind_docker_bridge_ip }}/16; localhost; };
+    allow-notify    { none; };
+    recursion yes;
+
+    dnssec-enable no;
+    dnssec-validation no;
+
+    auth-nxdomain no;    # conform to RFC1035
+};
+
+include "/etc/bind/consul.conf";

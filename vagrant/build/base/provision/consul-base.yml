@@ -1,0 +1,10 @@
+---
+
+- hosts: all
+  become: yes
+  become_user: root
+  roles:
+   - role: pip
+   - role: docker
+     docker_custom_network_name: consul
+   - role: bind

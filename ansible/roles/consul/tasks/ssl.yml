@@ -1,0 +1,22 @@
+- name: create dirs
+  file:
+    path: "{{ item.path }}"
+    state: directory
+    mode: "{{ item.mode }}"
+    owner: "{{ consul_user_name }}"
+  with_items:
+    - path: "{{ consul_ssl_cert_dir }}"
+      mode: o=rx
+
+- name: render ca and cert file
+  template:
+    src: "ssl/{{ item }}.j2"
+    dest: "{{ consul_ssl_cert_dir }}/{{ item }}"
+    mode: 0400
+    owner: "{{ consul_user_name }}"
+  with_items:
+    - "{{ consul_ca_file_name }}"
+    - "{{ consul_cert_file_name }}"
+    - "{{ consul_key_file_name }}"
+
+

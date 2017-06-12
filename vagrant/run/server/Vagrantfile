@@ -1,0 +1,26 @@
+N = 3
+
+ips = Array.new(N) { |i| "192.168.71.#{20 + i}"}
+
+Vagrant.configure("2") do |config|
+    (0..N-1).each do |j|
+        config.vm.define "consul#{j}" do |machine|
+            machine.vm.box = "ValFadeev/consul-server"
+            machine.vm.hostname = "consul#{j}"
+
+            ip = ips[j]
+            machine.vm.network "private_network",
+                                ip: ip
+            machine.vm.network "forwarded_port",
+                                guest: 8500,
+                                host: 8500 + j,
+                                host_ip: "127.0.0.1"
+
+            machine.vm.provision "shell", run: "always" do |s|
+                s.path = "extra_config.sh"
+                # IP addresses of the nodes to join
+                s.args = [N, (ips - [ip]).to_s]
+            end
+        end
+    end
+end

@@ -1,0 +1,11 @@
+---
+
+- name: get docker bridge IP
+  shell: >
+    docker network inspect consul | jq -r '.[].IPAM.Config | .[].Gateway' | cut -d/ -f1
+  register: example_docker_bridge_ip_result
+
+- name: register docker bridge IP
+  set_fact:
+    example_docker_bridge_ip: "{{ example_docker_bridge_ip_result.stdout }}"
+

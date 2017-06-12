@@ -1,0 +1,12 @@
+{
+    "server": true
+    {% if consul_server_acl_enabled %},
+    "acl_master_token": "{{ consul_server_acl_master_token }}",
+    "acl_datacenter": "{{ consul_server_acl_datacenter }}",
+    "acl_default_policy": "{{ consul_server_acl_default_policy }}",
+    "acl_down_policy": "{{ consul_server_acl_down_policy }}"
+    {% endif %}
+    {% if consul_ssl_enabled %},
+    "verify_incoming": {{ consul_server_verify_incoming|bool|to_json }}
+    {% endif %}
+}

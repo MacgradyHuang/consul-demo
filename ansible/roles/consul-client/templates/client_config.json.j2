@@ -1,0 +1,6 @@
+{
+    "server": false
+    {% if consul_acl_enabled|bool %},
+    "acl_token": "{{ consul_client_acl_token }}"
+    {% endif %}
+}
