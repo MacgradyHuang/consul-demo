@@ -7,27 +7,30 @@
     update_cache: yes
     cache_valid_time: 600
   with_items:
-    - jq
     - bind9
+    - jq
 
 - name: get docker bridge IP
   shell: >
-    docker network inspect {{ bind_network_name }} | jq -r '.[].IPAM.Config | .[].Gateway' | cut -d/ -f1
+    docker network inspect {{ bind_network_name }}
+    | jq -r '.[].IPAM.Config
+    | .[].Gateway'
+    | cut -d/ -f1
   register: bind_docker_bridge_ip_result
 
 - name: register docker bridge IP
   set_fact:
     bind_docker_bridge_ip: "{{ bind_docker_bridge_ip_result.stdout }}"
 
-- name: render options template
+- name: render config templates
   template:
-    src: named.conf.options.j2
-    dest: /etc/bind/named.conf.options
-
-- name: render consul zone file
-  template:
-    src: consul.conf.j2
-    dest: /etc/bind/consul.conf
+    src: "{{ item }}.j2"
+    dest: "/etc/bind/{{ item }}"
+  with_items:
+    - named.conf.options
+    - consul.conf
 
 - name: restart bind
-  shell: systemctl restart bind9
+  systemd:
+    name: bind9
+    state: restarted

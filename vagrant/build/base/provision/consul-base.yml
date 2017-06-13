@@ -6,5 +6,4 @@
   roles:
    - role: pip
    - role: docker
-     docker_custom_network_name: consul
    - role: bind

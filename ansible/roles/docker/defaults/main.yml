@@ -4,3 +4,4 @@ docker_clusterstore: no
 dockerpy: yes
 vagrant: yes
 docker_storagedriver: overlay2
+docker_network_name: consul

@@ -48,5 +48,4 @@
 
 - name: create custom network
   docker_network:
-    name: "{{ docker_custom_network_name }}"
-  when: docker_custom_network_name is defined
+    name: "{{ docker_network_name }}"
