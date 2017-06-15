@@ -75,7 +75,7 @@ consul_checks_common:
       status: "passing"
       interval: "1m"
       timeout: "20s"
-    - .d: "common.node.swap-util"
+    - id: "common.node.swap-util"
       name: "Swap Utilization"
       notes: "Critical {{ consul_checks_swap_critical }}, warning {{ consul_checks_swap_warning }} free"
       script: "/usr/lib/monitoring-plugins/check_swap -w {{ consul_checks_swap_warning }} -c {{ consul_checks_swap_critical }}"
