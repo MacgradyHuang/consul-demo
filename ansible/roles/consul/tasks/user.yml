@@ -6,12 +6,8 @@
   user:
     name: "{{ consul_user_name }}"
     group: "{{ consul_group_name }}"
-
-- name: look up user id
-  shell: >
-    id -u "{{ consul_user_name }}"
-  register: uid_lookup
+  register: consul_user_facts
 
 - name: set uid to be used inside the container
   set_fact:
-    consul_user_id: "{{ uid_lookup.stdout }}"
+    consul_user_id: "{{ consul_user_facts.uid }}"

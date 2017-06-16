@@ -1,26 +1,30 @@
 ---
 
-- name: install/update debian packages
+- name: install bind
   apt:
-    name: "{{ item }}"
+    name: bind9
     state: latest
     update_cache: yes
     cache_valid_time: 600
-  with_items:
-    - bind9
-    - jq
 
-- name: get docker bridge IP
-  shell: >
-    docker network inspect {{ bind_network_name }}
-    | jq -r '.[].IPAM.Config
-    | .[].Gateway'
-    | cut -d/ -f1
-  register: bind_docker_bridge_ip_result
+- name: ensure custom network is present
+  docker_network:
+    name: "{{ bind_network_name }}"
+    driver: bridge
+    state: present
+  register: bind_docker_network_facts
 
-- name: register docker bridge IP
+- name: lookup gateway
   set_fact:
-    bind_docker_bridge_ip: "{{ bind_docker_bridge_ip_result.stdout }}"
+    bind_docker_bridge_ip: |-
+      {{ (bind_docker_network_facts
+         .ansible_facts
+         .docker_network
+         .IPAM
+         .Config
+         |first
+         ).Gateway
+      }}
 
 - name: render config templates
   template:
