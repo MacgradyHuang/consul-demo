@@ -1,0 +1,8 @@
+Vagrant.configure("2") do |config|
+    config.vm.box = "ValFadeev/consul-base"
+    config.vm.synced_folder "images/", "/usr/local/etc/images"
+    config.vm.provision :ansible do |a|
+        a.playbook = "provision/rabbitmq.yml"
+        a.config_file = "provision/ansible.cfg"
+    end
+end

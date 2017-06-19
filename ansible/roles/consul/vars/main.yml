@@ -7,6 +7,7 @@ consul_client_addr: "0.0.0.0"
 consul_config_dir: "/etc/consul/config"
 consul_data_dir: "/data"
 consul_datacenter: dc1
+consul_debug_mode: true
 consul_disable_remote_exec: true
 consul_disable_update_check: true
 consul_dns_config_allow_stale: false

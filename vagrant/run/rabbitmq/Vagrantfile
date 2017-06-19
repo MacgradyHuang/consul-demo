@@ -1,0 +1,40 @@
+N = 1
+
+server_ips = Array.new(N) { |i| "192.168.71.#{20 + i}"}
+
+M = 3
+
+client_ips = Array.new(M) { |k| "192.168.74.#{20 + k}"}
+
+
+Vagrant.configure("2") do |config|
+    (0..M-1).each do |j|
+        config.vm.define "rabbit#{j}" do |machine|
+            machine.vm.box = "ValFadeev/rabbitmq"
+            machine.vm.hostname = "rabbit#{j}"
+            machine.vm.synced_folder "images/", "/usr/local/etc/images"
+
+            machine.vm.network "private_network",
+                                ip: client_ips[j]
+            machine.vm.network "forwarded_port",
+                                guest: 15672,
+                                host: 15672 + j,
+                                host_ip: "127.0.0.1"
+
+            machine.vm.provision "shell", run: "always" do |s|
+                s.path = "extra_config.sh"
+                # IP addresses of the nodes to join
+                s.args = [server_ips.to_s]
+            end
+
+            if j == M - 1
+                machine.vm.provision :ansible do |a|
+                    a.limit = "all"
+                    a.playbook = "ansible/rabbitmq.yml"
+                    a.config_file = "ansible/ansible.cfg"
+                end
+            end
+
+        end
+    end
+end

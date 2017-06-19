@@ -1,0 +1,7 @@
+rabbitmq_consul_client_acl_token: ""
+rabbitmq_consul_client_acl_enabled: false
+
+rabbitmq_consul_client_services:
+  - id: rabbitmq
+    name: rabbitmq
+    port: 5672

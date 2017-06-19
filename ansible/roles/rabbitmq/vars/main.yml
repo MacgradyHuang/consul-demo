@@ -1,0 +1,19 @@
+rabbitmq_local_image: true
+rabbitmq_cluster_name: default
+rabbitmq_cleanup_interval: 86400 # 24h
+rabbitmq_cleanup_warn_only: "false"
+rabbitmq_cluster_cleanup: "true"
+rabbitmq_config_dir: /usr/local/etc/rabbitmq
+rabbitmq_consul_host: consul
+rabbitmq_consul_include_nodes_with_warnings: "true"
+rabbitmq_consul_port: 8500
+rabbitmq_consul_ttl: 30
+rabbitmq_consul_use_longname: "true"
+rabbitmq_startup_delay: 15
+rabbitmq_use_longname: "false"
+rabbitmq_docker_image_name: valfadeev/rabbitmq
+rabbitmq_docker_image_tag: latest
+rabbitmq_network_name: consul
+rabbitmq_erlang_cookie: c8213444-f3c6-4480-8628-46efcebe232e
+rabbitmq_consul_service: rabbitmq
+rabbitmq_consul_client_acl_token: ""
