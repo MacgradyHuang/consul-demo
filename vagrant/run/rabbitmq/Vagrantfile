@@ -9,9 +9,9 @@ client_ips = Array.new(M) { |k| "192.168.74.#{20 + k}"}
 
 Vagrant.configure("2") do |config|
     (0..M-1).each do |j|
-        config.vm.define "node#{j}" do |machine|
+        config.vm.define "rabbit#{j}" do |machine|
             machine.vm.box = "ValFadeev/rabbitmq"
-            machine.vm.hostname = "node#{j}"
+            machine.vm.hostname = "rabbit#{j}"
             machine.vm.synced_folder "images/", "/usr/local/etc/images"
 
             machine.vm.network "private_network",
@@ -30,8 +30,8 @@ Vagrant.configure("2") do |config|
             if j == M - 1
                 machine.vm.provision :ansible do |a|
                     a.limit = "all"
-                    a.playbook = "provision/rabbitmq.yml"
-                    a.config_file = "provision/ansible.cfg"
+                    a.playbook = "ansible/rabbitmq.yml"
+                    a.config_file = "ansible/ansible.cfg"
                 end
             end
 
