@@ -1,4 +1,7 @@
 {
+    {% if consul_debug_mode %}
+    "log_level": "debug",
+    {% endif %}
     "datacenter": "{{ consul_datacenter }}",
     {% if consul_retry_join_ec2 %}
     "retry_join_ec2": {

@@ -1,0 +1,10 @@
+
+- include: config.yml
+  tags: [rabbitmq-config]
+
+- include: ip.yml
+  tags: [rabbitmq-container]
+
+- include: container.yml
+  tags: [rabbitmq-container]
+

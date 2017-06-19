@@ -1,0 +1,6 @@
+{
+    "server": false
+    {% if rabbitmq_consul_client_acl_enabled|bool %},
+    "acl_token": "{{ rabbitmq_consul_client_acl_token }}"
+    {% endif %}
+}

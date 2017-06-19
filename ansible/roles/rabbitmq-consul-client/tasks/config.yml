@@ -1,0 +1,6 @@
+- name: render client template
+  template:
+    src: client_config.json.j2
+    dest: "{{ consul_config_dir }}/client_config.json"
+    mode: 0644
+    owner: "{{ consul_user_name }}"

@@ -1,0 +1,5 @@
+---
+
+dependencies:
+  - role: consul
+    consul_services: "{{ rabbitmq_consul_client_services }}"

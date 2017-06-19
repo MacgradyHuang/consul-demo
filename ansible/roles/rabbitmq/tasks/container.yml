@@ -1,0 +1,33 @@
+---
+
+- name: load docker image from a local archive
+  docker_image:
+    name: rabbitmq
+    state: present
+    load_path: /usr/local/etc/images/rabbitmq.tar.gz
+  when: rabbitmq_local_image
+
+- name: start rabbitmq container
+  docker_container:
+    image: "{{ rabbitmq_docker_image_name }}:{{ rabbitmq_docker_image_tag }}"
+    name: rabbitmq
+    hostname: "{{ inventory_hostname }}.node.consul"
+    state: started
+    pull: "{{ 'no' if rabbitmq_local_image else 'yes' }}"
+    restart_policy: always
+    networks:
+      - name: "{{ rabbitmq_network_name }}"
+    dns_servers:
+      - "{{ rabbitmq_docker_bridge_ip }}"
+    ports:
+      - "4369:4369"
+      - "5671:5671"
+      - "5672:5672"
+      - "15671:15671"
+      - "15672:15672"
+      - "25672:25672"
+    volumes:
+      - "{{ rabbitmq_config_dir }}/rabbitmq.config:/etc/rabbitmq/rabbitmq.config"
+    env:
+      RABBITMQ_ERLANG_COOKIE: "{{ rabbitmq_erlang_cookie }}"
+      RABBITMQ_USE_LONGNAME: "true"

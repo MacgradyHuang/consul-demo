@@ -1,0 +1,13 @@
+---
+
+- name: create config directory
+  file:
+    path: "{{ rabbitmq_config_dir }}"
+    state: directory
+    mode: o+r
+
+- name: render config file
+  template:
+    src: rabbitmq.config.j2
+    dest: "{{ rabbitmq_config_dir }}/rabbitmq.config"
+    mode: o+r

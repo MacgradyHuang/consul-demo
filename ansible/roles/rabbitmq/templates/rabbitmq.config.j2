@@ -1,0 +1,30 @@
+[
+	{ rabbit, [
+		{ loopback_users, [ ] },
+		{ tcp_listeners, [ 5672 ] },
+		{ ssl_listeners, [ ] },
+		{ hipe_compile, false }
+	] },
+	{ rabbitmq_management, [ { listener, [
+		{ port, 15672 },
+		{ ssl, false }
+	] } ] },
+
+  { autocluster,
+    [
+      { backend, consul },
+      { consul_include_nodes_with_warnings, {{ rabbitmq_consul_include_nodes_with_warnings }} },
+      { consul_host, "{{ rabbitmq_consul_host }}" },
+      { consul_port, {{ rabbitmq_consul_port }} },
+      { consul_acl_token, "{{ rabbitmq_consul_client_acl_token }}" },
+      { consul_svc, "{{ rabbitmq_consul_service }}" },
+      { consul_svc_ttl, {{ rabbitmq_consul_ttl }} },
+      { consul_use_longname, {{ rabbitmq_consul_use_longname }} },
+      { cluster_name, {{ rabbitmq_cluster_name }} },
+      { startup_delay, {{ rabbitmq_startup_delay }} },
+      { cluster_cleanup, {{ rabbitmq_cluster_cleanup }} },
+      { cleanup_interval, {{ rabbitmq_cleanup_interval }} },
+      { cleanup_warn_only, {{ rabbitmq_cleanup_warn_only }} }
+    ]
+  }
+].

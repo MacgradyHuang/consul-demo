@@ -1,0 +1,21 @@
+---
+
+- name: ensure custom network is present
+  docker_network:
+    name: "{{ rabbitmq_network_name }}"
+    driver: bridge
+    state: present
+  register: rabbitmq_docker_network_facts
+
+- name: lookup gateway
+  set_fact:
+    rabbitmq_docker_bridge_ip: |-
+      {{ (rabbitmq_docker_network_facts
+         .ansible_facts
+         .docker_network
+         .IPAM
+         .Config
+         |first
+         ).Gateway
+      }}
+
