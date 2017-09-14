@@ -19,7 +19,8 @@ join="$1"
 printf "{\"node_name\": \"${host}\", \
          \"advertise_addr\": \"${ip_addr}\", \
          \"bootstrap_expect\": ${expect}, \
-         \"retry_join\": ${join} \
+         \"retry_join\": ${join}, \
+         \"enable_script_checks\": true \
         }" \
         > /etc/consul/config/extra_config.json
 

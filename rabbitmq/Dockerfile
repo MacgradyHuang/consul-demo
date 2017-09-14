@@ -1,6 +1,6 @@
 FROM rabbitmq:3.6.10-management-alpine
 
-ENV RABBITMQ_AUTOCLUSTER_VERSION=0.8.0-rc1
+ENV RABBITMQ_AUTOCLUSTER_VERSION=0.8.0
 
 RUN set -ex; \
     \
